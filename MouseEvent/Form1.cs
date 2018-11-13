@@ -22,8 +22,8 @@ namespace MouseEvent
         private Random _Random_Choice;
         private int _TimerInterval = 1000;
         private int _Choice = 0;
-        private int _TimerIntervalMaxValue = 36000;
-        private int _TimerIntervalMinValue = 1000;
+        private int _TimerIntervalMaxValue = 2100000;
+        private int _TimerIntervalMinValue = 600000;
         private int _SendCount = 0;
         
         private void button1_Click(object sender, EventArgs e)
@@ -48,10 +48,13 @@ namespace MouseEvent
                 timer1.Enabled = true;
                 timer1.Interval = _TimerInterval;
                 button1.Text = "Stop";
-                ShowInfo("计时器启动，周期： " + (_TimerInterval / 1000) + " 秒。");
+                ShowInfo("计时器启动，周期： " + GetValueOfTime(_TimerInterval) + " 分钟。");
             }
         }
-
+        private int GetValueOfTime(int t)
+        {
+            return t / 1000 / 60;
+        }
         private void timer1_Tick(object sender, EventArgs e)
         {
             //滚动鼠标
@@ -70,7 +73,7 @@ namespace MouseEvent
             _TimerInterval = _Random_TimerInterval.Next(_TimerIntervalMinValue, _TimerIntervalMaxValue);
             _Choice = _Random_Choice.Next(0, sentences.Length - 1);
             timer1.Interval = _TimerInterval;
-            ShowInfo("当前时钟周期为："  + (_TimerInterval/1000).ToString() + "秒");
+            ShowInfo("当前时钟周期为："  + GetValueOfTime(_TimerInterval) + "分钟。");
             
         }
 

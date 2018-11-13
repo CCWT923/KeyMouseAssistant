@@ -38,9 +38,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(71, 191);
+            this.button1.Location = new System.Drawing.Point(77, 191);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(151, 38);
+            this.button1.Size = new System.Drawing.Size(93, 30);
             this.button1.TabIndex = 0;
             this.button1.Text = "Start";
             this.button1.UseVisualStyleBackColor = true;
@@ -48,10 +48,10 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(12, 12);
+            this.textBox1.Location = new System.Drawing.Point(2, 12);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(252, 157);
+            this.textBox1.Size = new System.Drawing.Size(279, 173);
             this.textBox1.TabIndex = 1;
             // 
             // timer1

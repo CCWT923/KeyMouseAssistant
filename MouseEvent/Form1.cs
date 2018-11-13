@@ -84,5 +84,14 @@ namespace MouseEvent
         {
             label1.Text = s;
         }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            if(DateTime.Now.Hour >= 6 && DateTime.Now.Minute >= 40)
+            {
+                timer1.Enabled = false;
+                ShowInfo(DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + " 停止运行。");
+            }
+        }
     }
 }

@@ -22,15 +22,12 @@ namespace MouseEvent
         private Random _Random_Choice;
         private int _TimerInterval = 1000;
         private int _Choice = 0;
-        private int _TimerIntervalMaxValue = 2100000;
-        private int _TimerIntervalMinValue = 600000;
+        private int _TimerIntervalMaxValue = 5000;
+        private int _TimerIntervalMinValue = 1000;
         private int _SendCount = 0;
         
         private void button1_Click(object sender, EventArgs e)
         {
-            timer1.Interval = 3000;
-            timer1.Enabled = true;
-            return;
             if(textBox1.Text.Trim() == "")
             {
                 ShowInfo("文本框内容不能为空！");
@@ -51,24 +48,23 @@ namespace MouseEvent
                 timer1.Enabled = true;
                 timer1.Interval = _TimerInterval;
                 button1.Text = "Stop";
-                ShowInfo("计时器启动，周期： " + GetValueOfTime(_TimerInterval) + " 分钟。");
-                timer2.Enabled = true;
+                ShowInfo("计时器启动，周期： " + GetValueOfTime(_TimerInterval) + " 秒。");
             }
         }
         private int GetValueOfTime(int t)
         {
-            return t / 1000 / 60;
+            return t / 1000;
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
             //滚动鼠标
-            Win32API.mouse_event(0x800, 500, 500, int.Parse(textBox1.Text), 0);
-            return;
+            //Win32API.mouse_event(0x800, 500, 500, int.Parse(textBox1.Text), 0);
             string[] sentences = GetSentence(textBox1.Text);
             //随机选择一个句子
             string s = sentences[_Choice];
             //发送
             SendKeys.Send(s);
+            SendKeys.Send("{Enter}");
             _SendCount++;
             ShowInfo("发送 " + _SendCount.ToString() + " 次内容。");
 
@@ -78,7 +74,7 @@ namespace MouseEvent
             _TimerInterval = _Random_TimerInterval.Next(_TimerIntervalMinValue, _TimerIntervalMaxValue);
             _Choice = _Random_Choice.Next(0, sentences.Length - 1);
             timer1.Interval = _TimerInterval;
-            ShowInfo("当前时钟周期为："  + GetValueOfTime(_TimerInterval) + "分钟。");
+            ShowInfo("当前时钟周期为："  + GetValueOfTime(_TimerInterval) + "秒。");
             
         }
 
@@ -99,7 +95,6 @@ namespace MouseEvent
             {
                 timer1.Enabled = false;
                 ShowInfo(DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + " 停止运行。");
-                timer2.Enabled = false;
             }
         }
     }

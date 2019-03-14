@@ -28,6 +28,9 @@ namespace MouseEvent
         
         private void button1_Click(object sender, EventArgs e)
         {
+            timer1.Interval = 3000;
+            timer1.Enabled = true;
+            return;
             if(textBox1.Text.Trim() == "")
             {
                 ShowInfo("文本框内容不能为空！");
@@ -49,6 +52,7 @@ namespace MouseEvent
                 timer1.Interval = _TimerInterval;
                 button1.Text = "Stop";
                 ShowInfo("计时器启动，周期： " + GetValueOfTime(_TimerInterval) + " 分钟。");
+                timer2.Enabled = true;
             }
         }
         private int GetValueOfTime(int t)
@@ -58,7 +62,8 @@ namespace MouseEvent
         private void timer1_Tick(object sender, EventArgs e)
         {
             //滚动鼠标
-            //Win32API.mouse_event(0x800, 500, 500, int.Parse(textBox1.Text), 0);
+            Win32API.mouse_event(0x800, 500, 500, int.Parse(textBox1.Text), 0);
+            return;
             string[] sentences = GetSentence(textBox1.Text);
             //随机选择一个句子
             string s = sentences[_Choice];
@@ -94,6 +99,7 @@ namespace MouseEvent
             {
                 timer1.Enabled = false;
                 ShowInfo(DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + " 停止运行。");
+                timer2.Enabled = false;
             }
         }
     }

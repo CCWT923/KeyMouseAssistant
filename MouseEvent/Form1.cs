@@ -159,7 +159,7 @@ namespace MouseEvent
                     count = Win32API.GetWindowText(wndPtr, sb, maxLen);
                     if (rect.bottom - rect.top > 20 && rect.right - rect.left > 20 && count > 0)
                     {
-                        comboBox1.Items.Add(sb.ToString() + ", " + wndPtr);
+                        comboBox1.Items.Add(wndPtr + ";" + sb.ToString());
                     }
 
                     wndPtr = Win32API.GetWindow(wndPtr, Win32API.WINDOWRELATION.GW_HWNDNEXT);

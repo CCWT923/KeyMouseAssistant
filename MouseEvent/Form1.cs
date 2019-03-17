@@ -26,8 +26,9 @@ namespace MouseEvent
         private int _TimerIntervalMinValue;
         private int _SendCount = 0;
         string[] sentences;
-
-
+        private IntPtr _SelectedHwnd = IntPtr.Zero; //当前选择的窗口句柄
+        private const char _split = ';';
+        
         private void button1_Click(object sender, EventArgs e)
         {
             if(textBox1.Text.Trim() == "")
@@ -41,20 +42,27 @@ namespace MouseEvent
                 ShowInfo("时间间隔不正确！");
                 return;
             }
+            if(comboBox1.SelectedItem == null)
+            {
+                ShowInfo("未选择项目！");
+                return;
+            }
 
             GetTimeIntervalRandom();
 
             if (timer1.Enabled)
             {
                 timer1.Enabled = false;
-                button1.Text = "Start";
+                button1.Text = "开始";
+                button1.BackColor = SystemColors.Control;
                 ShowInfo("计时器停止。");
             }
             else
             {
                 timer1.Enabled = true;
                 timer1.Interval = _TimerInterval;
-                button1.Text = "Stop";
+                button1.Text = "停止";
+                button1.BackColor = Color.DarkOrange;
                 ShowInfo("计时器启动，周期：" + GetValueOfTime(_TimerInterval) + " 秒。");
             }
         }
@@ -70,8 +78,8 @@ namespace MouseEvent
         private void GetTimeIntervalRandom()
         {
             //最小时间和最大时间
-            _TimerIntervalMinValue = (int)double.Parse(TextBox_MinValue.Text) * 1000;
-            _TimerIntervalMaxValue = (int)double.Parse(TextBox_MaxValue.Text) * 1000;
+            _TimerIntervalMinValue = (int)(double.Parse(TextBox_MinValue.Text) * 1000);
+            _TimerIntervalMaxValue = (int)(double.Parse(TextBox_MaxValue.Text) * 1000);
             //最小值大于最大值，则交换两个值
             if (_TimerIntervalMinValue > _TimerIntervalMaxValue)
             {
@@ -87,30 +95,41 @@ namespace MouseEvent
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            //滚动鼠标
-            //Win32API.mouse_event(0x800, 500, 500, int.Parse(textBox1.Text), 0);
-            sentences = GetSentence(textBox1.Text);
-
-            _Random_Choice = new Random(DateTime.Now.Millisecond);
-            _Choice = _Random_Choice.Next(0, sentences.Length);
-
-            //随机选择一个句子
-            string s = sentences[_Choice];
-            if(s == string.Empty)
+            if( _SelectedHwnd == GetForegroundWindow())
             {
-                return;
+                //滚动鼠标
+                //Win32API.mouse_event(0x800, 500, 500, int.Parse(textBox1.Text), 0);
+                sentences = GetSentence(textBox1.Text);
+
+                _Random_Choice = new Random(DateTime.Now.Millisecond);
+                _Choice = _Random_Choice.Next(0, sentences.Length);
+
+                //随机选择一个句子
+                string s = sentences[_Choice];
+                if (s == string.Empty)
+                {
+                    return;
+                }
+                //发送
+                SendKeys.Send(s);
+                if(ChkBox_SendEnter.Checked)
+                {
+                    ////发送回车键
+                    SendKeys.Send("{Enter}");
+                }
+
+                _SendCount++;
+
+                GetTimeIntervalRandom();
+
+                timer1.Interval = _TimerInterval;
+                ShowInfo("发送 " + _SendCount + " 次；周期：" + (_TimerInterval >= 1000 ? GetValueOfTime(_TimerInterval) + "秒。" : _TimerInterval + "毫秒。"));
+
             }
-            //发送
-            SendKeys.Send(s);
-            //发送回车键
-            //SendKeys.Send("{Enter}");
-            _SendCount++;
-            ShowInfo("发送 " + _SendCount.ToString() + " 次内容。");
-
-            GetTimeIntervalRandom();
-
-            timer1.Interval = _TimerInterval;
-            ShowInfo("当前时钟周期为："  + (_TimerInterval >= 1000 ? GetValueOfTime(_TimerInterval) + "秒。" : _TimerInterval + "毫秒。"));
+            else
+            {
+                ShowInfo("非指定窗口，停止发送");
+            }
         }
 
         private string[] GetSentence(string s)
@@ -159,7 +178,7 @@ namespace MouseEvent
                     count = Win32API.GetWindowText(wndPtr, sb, maxLen);
                     if (rect.bottom - rect.top > 20 && rect.right - rect.left > 20 && count > 0)
                     {
-                        comboBox1.Items.Add(wndPtr + ";" + sb.ToString());
+                        comboBox1.Items.Add(wndPtr + _split.ToString() + sb.ToString());
                     }
 
                     wndPtr = Win32API.GetWindow(wndPtr, Win32API.WINDOWRELATION.GW_HWNDNEXT);
@@ -186,6 +205,32 @@ namespace MouseEvent
             {
                 e.Handled = true;
             }
+        }
+
+        /// <summary>
+        /// 获取当前活动窗口的句柄
+        /// </summary>
+        /// <returns></returns>
+        private IntPtr GetForegroundWindow()
+        {
+            return Win32API.GetForegroundWindow();
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _SelectedHwnd = GetIntptrFromSelectedItem(comboBox1.SelectedItem.ToString(), _split);
+        }
+        /// <summary>
+        /// 获取选中项目所代表的窗口句柄
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="split"></param>
+        /// <returns></returns>
+        private IntPtr GetIntptrFromSelectedItem(string str, char split)
+        {
+            IntPtr ptr;
+            ptr = new IntPtr(int.Parse(str.Substring(0, str.IndexOf(split))));
+            return ptr;
         }
     }
 }

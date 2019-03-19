@@ -54,7 +54,6 @@ namespace MouseEvent
             {
                 timer1.Enabled = false;
                 button1.Text = "开始";
-                button1.BackColor = SystemColors.Control;
                 ShowInfo("计时器停止。");
             }
             else
@@ -62,7 +61,6 @@ namespace MouseEvent
                 timer1.Enabled = true;
                 timer1.Interval = _TimerInterval;
                 button1.Text = "停止";
-                button1.BackColor = Color.DarkOrange;
                 ShowInfo("计时器启动，周期：" + GetValueOfTime(_TimerInterval) + " 秒。");
             }
         }
@@ -93,6 +91,8 @@ namespace MouseEvent
             _TimerInterval = _Random_TimerInterval.Next(_TimerIntervalMinValue, _TimerIntervalMaxValue);
         }
 
+        int totalCount = 0;
+
         private void timer1_Tick(object sender, EventArgs e)
         {
             if( _SelectedHwnd == GetForegroundWindow())
@@ -100,16 +100,20 @@ namespace MouseEvent
                 //滚动鼠标
                 //Win32API.mouse_event(0x800, 500, 500, int.Parse(textBox1.Text), 0);
                 sentences = GetSentence(textBox1.Text);
-
+                DebugOut("数组大小为：" + sentences.Length);
                 _Random_Choice = new Random(DateTime.Now.Millisecond);
                 _Choice = _Random_Choice.Next(0, sentences.Length);
-
+                
                 //随机选择一个句子
                 string s = sentences[_Choice];
+DebugOut("当前选择：" + _Choice + "，数组大小：" + sentences.Length + "。内容：【" + s + "】。");
+
                 if (s == string.Empty)
                 {
+                    DebugOut("空字符串！！！！！");
                     return;
                 }
+                DebugOut("获取句子。");
                 //发送
                 SendKeys.Send(s);
                 if(ChkBox_SendEnter.Checked)
@@ -117,13 +121,32 @@ namespace MouseEvent
                     ////发送回车键
                     SendKeys.Send("{Enter}");
                 }
-
+                //DebugOut("发送");
                 _SendCount++;
 
-                GetTimeIntervalRandom();
-
-                timer1.Interval = _TimerInterval;
                 ShowInfo("发送 " + _SendCount + " 次；周期：" + (_TimerInterval >= 1000 ? GetValueOfTime(_TimerInterval) + "秒。" : _TimerInterval + "毫秒。"));
+
+                if(ChkBox_AutoStop.Checked == true)
+                {
+                    if(RadBtn_Count.Checked)
+                    {
+                        totalCount = int.Parse(TextBox_SendCount.Text);
+                        if(_SendCount >= totalCount)
+                        {
+                            SwitchTimerStatus(false);
+                            timer1.Enabled = false;
+                        }
+                    }
+                    if(RadBtn_Time.Checked)
+                    {
+                        timer2.Interval = 1000;
+                        timer2.Enabled = true;
+                    }
+                }
+                //DebugOut("获取下一次的时间周期开始。");
+                GetTimeIntervalRandom();
+                DebugOut("获取下一次的时间周期结束。");
+                timer1.Interval = _TimerInterval;
 
             }
             else
@@ -134,10 +157,18 @@ namespace MouseEvent
 
         private string[] GetSentence(string s)
         {
-            //TODO：（记录）因为Windows系统使用的“\r\n”作为换行符，为了通用性，使用Environment
-            string[] sentence = s.Split(Environment.NewLine.ToCharArray());
+            //因为Windows系统使用的“\r\n”作为换行符，为了通用性，使用Environment
+            //string[] sentence = s.Split(Environment.NewLine.ToCharArray());
+            string[] sentence = s.Split(new string[] { Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
+            //TODO:获取的里面，有很多空字符串
             return sentence;
         }
+#if DEBUG
+        private void DebugOut(string message)
+        {
+            System.Diagnostics.Debug.WriteLine(DateTime.Now.ToString("HH:mm:ss.fff") + "\t" + message);
+        }
+#endif
 
         private void ShowInfo(string s)
         {
@@ -146,16 +177,21 @@ namespace MouseEvent
 
         private void timer2_Tick(object sender, EventArgs e)
         {
-            if(DateTime.Now.Hour >= 6 && DateTime.Now.Minute >= 40)
+            DateTime desTime = dateTimePicker1.Value;
+            if(DateTime.Now.Year >= desTime.Year && DateTime.Now.Month >= desTime.Month && DateTime.Now.Day >= desTime.Day 
+                && DateTime.Now.Hour >= desTime.Hour && DateTime.Now.Minute >= desTime.Minute)
             {
                 timer1.Enabled = false;
-                ShowInfo(DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + " 停止运行。");
+                SwitchTimerStatus(false);
+                timer2.Enabled = false;
             }
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             GetWindowsList();
+            ChkBox_AutoStop.Checked = false;
+            panel1.Enabled = false;
         }
 
         private void GetWindowsList()
@@ -207,6 +243,22 @@ namespace MouseEvent
             }
         }
 
+        private void SwitchTimerStatus(bool enable)
+        {
+            if(enable == true)
+            {
+                ShowInfo("计时器启动。");
+                button1.Text = "停止";
+
+            }
+            else
+            {
+                ShowInfo("计时器停止。");
+                button1.Text = "开始";
+                _SendCount = 0;
+            }
+        }
+
         /// <summary>
         /// 获取当前活动窗口的句柄
         /// </summary>
@@ -231,6 +283,39 @@ namespace MouseEvent
             IntPtr ptr;
             ptr = new IntPtr(int.Parse(str.Substring(0, str.IndexOf(split))));
             return ptr;
+        }
+
+        private void ChkBox_AutoStop_CheckedChanged(object sender, EventArgs e)
+        {
+            if(ChkBox_AutoStop.Checked)
+            {
+                panel1.Enabled = true;
+                RadBtn_Count.Checked = true;
+            }
+            else
+            {
+                panel1.Enabled = false;
+
+            }
+        }
+
+        private void RadBtn_Count_CheckedChanged(object sender, EventArgs e)
+        {
+            if(RadBtn_Count.Checked)
+            {
+                dateTimePicker1.Enabled = false;
+                TextBox_SendCount.Enabled = true;
+            }
+        }
+
+        private void RadBtn_Time_CheckedChanged(object sender, EventArgs e)
+        {
+            if(RadBtn_Time.Checked)
+            {
+                TextBox_SendCount.Enabled = false;
+                dateTimePicker1.Enabled = true;
+            }
+            
         }
     }
 }

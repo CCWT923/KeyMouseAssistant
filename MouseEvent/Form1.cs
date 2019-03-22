@@ -174,7 +174,7 @@ DebugOut("当前选择：" + _Choice + "，数组大小：" + sentences.Length +
         {
             Lbl_Status.Text = s;
         }
-
+        //TODO：Convert.ToInt32('一')
         private void timer2_Tick(object sender, EventArgs e)
         {
             DateTime desTime = dateTimePicker1.Value;

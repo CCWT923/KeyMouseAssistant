@@ -34,7 +34,6 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.Lbl_Status = new System.Windows.Forms.Label();
             this.timer2 = new System.Windows.Forms.Timer(this.components);
-            this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.Btn_Refresh = new System.Windows.Forms.Button();
@@ -45,11 +44,18 @@
             this.ChkBox_SendEnter = new System.Windows.Forms.CheckBox();
             this.ChkBox_AutoStop = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.TextBox_SendCount = new System.Windows.Forms.TextBox();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.RadBtn_Count = new System.Windows.Forms.RadioButton();
             this.RadBtn_Time = new System.Windows.Forms.RadioButton();
+            this.RadBtn_Count = new System.Windows.Forms.RadioButton();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.TextBox_SendCount = new System.Windows.Forms.TextBox();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.TabPage_Sentence = new System.Windows.Forms.TabPage();
+            this.TabPage_Number = new System.Windows.Forms.TabPage();
+            this.TabPage_Random = new System.Windows.Forms.TabPage();
+            this.CheckBox_RandomSentence = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.TabPage_Sentence.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -70,14 +76,12 @@
             // 
             // textBox1
             // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(16, 118);
+            this.textBox1.Location = new System.Drawing.Point(4, 0);
             this.textBox1.Margin = new System.Windows.Forms.Padding(4);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(498, 165);
+            this.textBox1.Size = new System.Drawing.Size(387, 154);
             this.textBox1.TabIndex = 1;
             // 
             // timer1
@@ -97,16 +101,6 @@
             // 
             this.timer2.Interval = 60000;
             this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(19, 92);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(262, 15);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "待发送的句子列表（每个单独一行）：";
             // 
             // label3
             // 
@@ -215,23 +209,17 @@
             this.panel1.Size = new System.Drawing.Size(414, 63);
             this.panel1.TabIndex = 11;
             // 
-            // TextBox_SendCount
+            // RadBtn_Time
             // 
-            this.TextBox_SendCount.Location = new System.Drawing.Point(29, 30);
-            this.TextBox_SendCount.Name = "TextBox_SendCount";
-            this.TextBox_SendCount.Size = new System.Drawing.Size(105, 25);
-            this.TextBox_SendCount.TabIndex = 1;
-            this.TextBox_SendCount.Text = "5";
-            this.TextBox_SendCount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.JustAllowNumberInput);
-            // 
-            // dateTimePicker1
-            // 
-            this.dateTimePicker1.CustomFormat = "yyyy-MM-dd HH:mm";
-            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker1.Location = new System.Drawing.Point(194, 30);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(192, 25);
-            this.dateTimePicker1.TabIndex = 3;
+            this.RadBtn_Time.AutoSize = true;
+            this.RadBtn_Time.Location = new System.Drawing.Point(174, 3);
+            this.RadBtn_Time.Name = "RadBtn_Time";
+            this.RadBtn_Time.Size = new System.Drawing.Size(133, 19);
+            this.RadBtn_Time.TabIndex = 4;
+            this.RadBtn_Time.TabStop = true;
+            this.RadBtn_Time.Text = "到达指定时间：";
+            this.RadBtn_Time.UseVisualStyleBackColor = true;
+            this.RadBtn_Time.CheckedChanged += new System.EventHandler(this.RadBtn_Time_CheckedChanged);
             // 
             // RadBtn_Count
             // 
@@ -245,23 +233,83 @@
             this.RadBtn_Count.UseVisualStyleBackColor = true;
             this.RadBtn_Count.CheckedChanged += new System.EventHandler(this.RadBtn_Count_CheckedChanged);
             // 
-            // RadBtn_Time
+            // dateTimePicker1
             // 
-            this.RadBtn_Time.AutoSize = true;
-            this.RadBtn_Time.Location = new System.Drawing.Point(174, 3);
-            this.RadBtn_Time.Name = "RadBtn_Time";
-            this.RadBtn_Time.Size = new System.Drawing.Size(133, 19);
-            this.RadBtn_Time.TabIndex = 4;
-            this.RadBtn_Time.TabStop = true;
-            this.RadBtn_Time.Text = "到达指定时间：";
-            this.RadBtn_Time.UseVisualStyleBackColor = true;
-            this.RadBtn_Time.CheckedChanged += new System.EventHandler(this.RadBtn_Time_CheckedChanged);
+            this.dateTimePicker1.CustomFormat = "yyyy-MM-dd HH:mm";
+            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePicker1.Location = new System.Drawing.Point(194, 30);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(192, 25);
+            this.dateTimePicker1.TabIndex = 3;
+            // 
+            // TextBox_SendCount
+            // 
+            this.TextBox_SendCount.Location = new System.Drawing.Point(29, 30);
+            this.TextBox_SendCount.Name = "TextBox_SendCount";
+            this.TextBox_SendCount.Size = new System.Drawing.Size(105, 25);
+            this.TextBox_SendCount.TabIndex = 1;
+            this.TextBox_SendCount.Text = "5";
+            this.TextBox_SendCount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.JustAllowNumberInput);
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.TabPage_Sentence);
+            this.tabControl1.Controls.Add(this.TabPage_Number);
+            this.tabControl1.Controls.Add(this.TabPage_Random);
+            this.tabControl1.Location = new System.Drawing.Point(21, 93);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(503, 190);
+            this.tabControl1.TabIndex = 12;
+            // 
+            // TabPage_Sentence
+            // 
+            this.TabPage_Sentence.BackColor = System.Drawing.SystemColors.Control;
+            this.TabPage_Sentence.Controls.Add(this.CheckBox_RandomSentence);
+            this.TabPage_Sentence.Controls.Add(this.textBox1);
+            this.TabPage_Sentence.Location = new System.Drawing.Point(4, 25);
+            this.TabPage_Sentence.Name = "TabPage_Sentence";
+            this.TabPage_Sentence.Padding = new System.Windows.Forms.Padding(3);
+            this.TabPage_Sentence.Size = new System.Drawing.Size(495, 161);
+            this.TabPage_Sentence.TabIndex = 0;
+            this.TabPage_Sentence.Text = "发送语句";
+            // 
+            // TabPage_Number
+            // 
+            this.TabPage_Number.Location = new System.Drawing.Point(4, 25);
+            this.TabPage_Number.Name = "TabPage_Number";
+            this.TabPage_Number.Padding = new System.Windows.Forms.Padding(3);
+            this.TabPage_Number.Size = new System.Drawing.Size(495, 161);
+            this.TabPage_Number.TabIndex = 1;
+            this.TabPage_Number.Text = "发送序号";
+            this.TabPage_Number.UseVisualStyleBackColor = true;
+            // 
+            // TabPage_Random
+            // 
+            this.TabPage_Random.Location = new System.Drawing.Point(4, 25);
+            this.TabPage_Random.Name = "TabPage_Random";
+            this.TabPage_Random.Size = new System.Drawing.Size(495, 161);
+            this.TabPage_Random.TabIndex = 2;
+            this.TabPage_Random.Text = "随机字符";
+            this.TabPage_Random.UseVisualStyleBackColor = true;
+            // 
+            // CheckBox_RandomSentence
+            // 
+            this.CheckBox_RandomSentence.AutoSize = true;
+            this.CheckBox_RandomSentence.Location = new System.Drawing.Point(400, 6);
+            this.CheckBox_RandomSentence.Name = "CheckBox_RandomSentence";
+            this.CheckBox_RandomSentence.Size = new System.Drawing.Size(89, 19);
+            this.CheckBox_RandomSentence.TabIndex = 2;
+            this.CheckBox_RandomSentence.Text = "随机顺序";
+            this.CheckBox_RandomSentence.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(536, 466);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.ChkBox_AutoStop);
             this.Controls.Add(this.ChkBox_SendEnter);
@@ -272,9 +320,7 @@
             this.Controls.Add(this.Btn_Refresh);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.Lbl_Status);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button1);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
@@ -283,6 +329,9 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
+            this.TabPage_Sentence.ResumeLayout(false);
+            this.TabPage_Sentence.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -295,7 +344,6 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label Lbl_Status;
         private System.Windows.Forms.Timer timer2;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Button Btn_Refresh;
@@ -310,6 +358,11 @@
         private System.Windows.Forms.RadioButton RadBtn_Count;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.TextBox TextBox_SendCount;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage TabPage_Sentence;
+        private System.Windows.Forms.CheckBox CheckBox_RandomSentence;
+        private System.Windows.Forms.TabPage TabPage_Number;
+        private System.Windows.Forms.TabPage TabPage_Random;
     }
 }
 

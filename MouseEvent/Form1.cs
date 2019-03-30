@@ -31,6 +31,8 @@ namespace MouseEvent
         
         private void button1_Click(object sender, EventArgs e)
         {
+            MessageBox.Show(tabControl1.SelectedIndex.ToString());
+            return;
             if(textBox1.Text.Trim() == "")
             {
                 ShowInfo("文本框内容不能为空！");

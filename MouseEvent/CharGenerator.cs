@@ -19,14 +19,36 @@ namespace MouseEvent
             
         }
 
+        private Random _Random;
+        private string _CharResult;
+        private int _ChAR_CN_MIN = 0x4E00;
+        private int _CHAR_CN_MAX = 0x9FA5;
+
         /// <summary>
         /// 表示字符类型的枚举值
         /// </summary>
-        public enum CharType:uint
+        public enum CharType:byte
         {
-            ChineseCharacters = 0,
-            Numbers,
-            Letter
+            ChineseCharacters = 1,
+            Numbers = 2,
+            Letter = 4
         };
+        /// <summary>
+        /// 获取一个指定类型的字符串
+        /// </summary>
+        /// <param name="charType"></param>
+        /// <returns></returns>
+        public string GetChar(CharType charType)
+        {
+            _Random = new Random(DateTime.Now.Millisecond);
+            
+            if(charType ==CharType.ChineseCharacters)
+            {
+                _CharResult = ((Char)_Random.Next(_ChAR_CN_MIN, _CHAR_CN_MAX)).ToString();
+                return _CharResult;
+            }
+            return _CharResult;
+        }
+
     }
 }

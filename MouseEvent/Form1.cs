@@ -46,10 +46,16 @@ namespace MouseEvent
             if(tab.SelectedIndex == 1)
             {
                 if(TextBox_NumStart.Text == string.Empty || TextBox_NumEnd.Text == string.Empty 
-                    || TextBox_NumStep.Text == string.Empty || comboBox1.SelectedItem == null)
+                    || TextBox_NumStep.Text == string.Empty || comboBox1.SelectedItem == null 
+                    || (double.Parse(TextBox_NumStart.Text) >= double.Parse(TextBox_NumEnd.Text)))
                 {
                     return false;
                 }
+                else
+                {
+                    numStarted = false;
+                }
+               
             }
             if(tab.SelectedIndex == 2)
             {
@@ -70,6 +76,7 @@ namespace MouseEvent
             }
 
             GetTimeIntervalRandom();
+            generator = new CharGenerator();
 
             if (timer1.Enabled)
             {
@@ -113,6 +120,12 @@ namespace MouseEvent
         }
 
         int totalCount = 0;
+        double numStart = 0.0;
+        double numEnd = 0.0;
+        bool numStarted = false;
+        string toSendStr = "";
+        double numStep = 0.0;
+        CharGenerator generator;
 
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -123,39 +136,52 @@ namespace MouseEvent
                 if (tabControl1.SelectedIndex == 0)
                 {
                     sentences = GetSentence(textBox1.Text);
-                    DebugOut("数组大小为：" + sentences.Length);
                     _Random_Choice = new Random(DateTime.Now.Millisecond);
                     _Choice = _Random_Choice.Next(0, sentences.Length);
 
                     //随机选择一个句子
-                    string s = sentences[_Choice];
-                    DebugOut("当前选择：" + _Choice + "，数组大小：" + sentences.Length + "。内容：【" + s + "】。");
+                    toSendStr = sentences[_Choice];
 
-                    if (s == string.Empty)
+                    if (toSendStr == string.Empty)
                     {
-                        DebugOut("空字符串！！！！！");
                         return;
                     }
-                    DebugOut("获取句子。");
-                    //发送
-                    SendKeys.Send(s);
- 
-                    //DebugOut("发送");
-                    _SendCount++;
-
-                    ShowInfo("发送 " + _SendCount + " 次；周期：" + (_TimerInterval >= 1000 ? GetValueOfTime(_TimerInterval) + "秒。" : _TimerInterval + "毫秒。"));
                 }
                 //TODO: 发送数字
                 if(tabControl1.SelectedIndex == 1)
                 {
-                    MessageBox.Show("功能尚未完善！");
-                    return;
+                    if(!numStarted)
+                    {
+                        numStart = double.Parse(TextBox_NumStart.Text);
+                        numStarted = true;
+                    }
+
+                    numEnd = double.Parse(TextBox_NumEnd.Text);
+                    numStep = double.Parse(TextBox_NumStep.Text);
+                    numStart += numStep;
+                    if (numStart < numEnd)
+                    {
+                        toSendStr = numStart.ToString();
+                    }
+                    else
+                    {
+                        SwitchTimerStatus(false);
+                        timer1.Enabled = false;
+                    }
+
                 }
                 if(tabControl1.SelectedIndex == 2)
                 {
-                    MessageBox.Show("功能尚未完善！");
-                    return;
+                    toSendStr = generator.GetChar(CharGenerator.CharType.ChineseCharacters);
                 }
+
+                //发送
+                SendKeys.Send(toSendStr);
+
+                _SendCount++;
+
+                ShowInfo("发送 " + _SendCount + " 次；周期：" + (_TimerInterval >= 1000 ? GetValueOfTime(_TimerInterval) + "秒。" : _TimerInterval + "毫秒。"));
+
                 ////发送回车键
                 if (ChkBox_SendEnter.Checked)
                 {

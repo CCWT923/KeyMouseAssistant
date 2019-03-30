@@ -29,24 +29,43 @@ namespace MouseEvent
         private IntPtr _SelectedHwnd = IntPtr.Zero; //当前选择的窗口句柄
         private const char _split = ';';
         
-        private void button1_Click(object sender, EventArgs e)
+        /// <summary>
+        /// 验证每个TabControl的内容
+        /// </summary>
+        /// <returns></returns>
+        private bool ValidTabData(ref TabControl tab)
         {
-            MessageBox.Show(tabControl1.SelectedIndex.ToString());
-            return;
-            if(textBox1.Text.Trim() == "")
+            if(tab.SelectedIndex == 0)
             {
-                ShowInfo("文本框内容不能为空！");
-                return;
+                if (textBox1.Text.Trim() == "" || TextBox_MinValue.Text == "" 
+                    || TextBox_MaxValue.Text == "" || comboBox1.SelectedItem == null)
+                {
+                    return false;
+                }
+            }
+            if(tab.SelectedIndex == 1)
+            {
+                if(TextBox_NumStart.Text == string.Empty || TextBox_NumEnd.Text == string.Empty 
+                    || TextBox_NumStep.Text == string.Empty || comboBox1.SelectedItem == null)
+                {
+                    return false;
+                }
+            }
+            if(tab.SelectedIndex == 2)
+            {
+                if (comboBox1.SelectedItem == null || (CheckBox_Letter.Checked == false && CheckBox_Number.Checked == false && CheckBox_ChineseChar.Checked == false))
+                {
+                    return false;
+                }
             }
 
-            if(TextBox_MinValue.Text == "" || TextBox_MaxValue.Text == "")
+            return true ;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if(!ValidTabData(ref tabControl1))
             {
-                ShowInfo("时间间隔不正确！");
-                return;
-            }
-            if(comboBox1.SelectedItem == null)
-            {
-                ShowInfo("未选择项目！");
                 return;
             }
 
@@ -56,14 +75,14 @@ namespace MouseEvent
             {
                 timer1.Enabled = false;
                 button1.Text = "开始";
-                ShowInfo("计时器停止。");
+                ShowInfo("停止。");
             }
             else
             {
                 timer1.Enabled = true;
                 timer1.Interval = _TimerInterval;
                 button1.Text = "停止";
-                ShowInfo("计时器启动，周期：" + GetValueOfTime(_TimerInterval) + " 秒。");
+                ShowInfo("启动，周期：" + GetValueOfTime(_TimerInterval) + " 秒。");
             }
         }
 
@@ -101,34 +120,49 @@ namespace MouseEvent
             {
                 //滚动鼠标
                 //Win32API.mouse_event(0x800, 500, 500, int.Parse(textBox1.Text), 0);
-                sentences = GetSentence(textBox1.Text);
-                DebugOut("数组大小为：" + sentences.Length);
-                _Random_Choice = new Random(DateTime.Now.Millisecond);
-                _Choice = _Random_Choice.Next(0, sentences.Length);
-                
-                //随机选择一个句子
-                string s = sentences[_Choice];
-DebugOut("当前选择：" + _Choice + "，数组大小：" + sentences.Length + "。内容：【" + s + "】。");
-
-                if (s == string.Empty)
+                if (tabControl1.SelectedIndex == 0)
                 {
-                    DebugOut("空字符串！！！！！");
+                    sentences = GetSentence(textBox1.Text);
+                    DebugOut("数组大小为：" + sentences.Length);
+                    _Random_Choice = new Random(DateTime.Now.Millisecond);
+                    _Choice = _Random_Choice.Next(0, sentences.Length);
+
+                    //随机选择一个句子
+                    string s = sentences[_Choice];
+                    DebugOut("当前选择：" + _Choice + "，数组大小：" + sentences.Length + "。内容：【" + s + "】。");
+
+                    if (s == string.Empty)
+                    {
+                        DebugOut("空字符串！！！！！");
+                        return;
+                    }
+                    DebugOut("获取句子。");
+                    //发送
+                    SendKeys.Send(s);
+ 
+                    //DebugOut("发送");
+                    _SendCount++;
+
+                    ShowInfo("发送 " + _SendCount + " 次；周期：" + (_TimerInterval >= 1000 ? GetValueOfTime(_TimerInterval) + "秒。" : _TimerInterval + "毫秒。"));
+                }
+                //TODO: 发送数字
+                if(tabControl1.SelectedIndex == 1)
+                {
+                    MessageBox.Show("功能尚未完善！");
                     return;
                 }
-                DebugOut("获取句子。");
-                //发送
-                SendKeys.Send(s);
-                if(ChkBox_SendEnter.Checked)
+                if(tabControl1.SelectedIndex == 2)
                 {
-                    ////发送回车键
+                    MessageBox.Show("功能尚未完善！");
+                    return;
+                }
+                ////发送回车键
+                if (ChkBox_SendEnter.Checked)
+                {
                     SendKeys.Send("{Enter}");
                 }
-                //DebugOut("发送");
-                _SendCount++;
 
-                ShowInfo("发送 " + _SendCount + " 次；周期：" + (_TimerInterval >= 1000 ? GetValueOfTime(_TimerInterval) + "秒。" : _TimerInterval + "毫秒。"));
-
-                if(ChkBox_AutoStop.Checked == true)
+                if (ChkBox_AutoStop.Checked == true)
                 {
                     if(RadBtn_Count.Checked)
                     {

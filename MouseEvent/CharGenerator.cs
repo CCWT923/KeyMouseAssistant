@@ -38,15 +38,19 @@ namespace MouseEvent
         /// </summary>
         /// <param name="charType"></param>
         /// <returns></returns>
-        public string GetChar(CharType charType)
+        public string GetChar(CharType charType, int num = 1)
         {
+            _CharResult = "";
             _Random = new Random(DateTime.Now.Millisecond);
-            
-            if(charType ==CharType.ChineseCharacters)
+            for(int i = 0; i < num; i++)
             {
-                _CharResult = ((Char)_Random.Next(_ChAR_CN_MIN, _CHAR_CN_MAX)).ToString();
-                return _CharResult;
+                if (charType == CharType.ChineseCharacters)
+                {
+                    _CharResult += ((Char)_Random.Next(_ChAR_CN_MIN, _CHAR_CN_MAX)).ToString();
+                }
             }
+
+
             return _CharResult;
         }
 

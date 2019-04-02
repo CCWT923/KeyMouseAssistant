@@ -126,25 +126,41 @@ namespace MouseEvent
         string toSendStr = "";
         double numStep = 0.0;
         CharGenerator generator;
+        int charIndex = 0;
 
         private void timer1_Tick(object sender, EventArgs e)
         {
             if( _SelectedHwnd == GetForegroundWindow())
             {
+                _Random_Choice = new Random(DateTime.Now.Millisecond);
                 //滚动鼠标
                 //Win32API.mouse_event(0x800, 500, 500, int.Parse(textBox1.Text), 0);
                 if (tabControl1.SelectedIndex == 0)
                 {
-                    sentences = GetSentence(textBox1.Text);
-                    _Random_Choice = new Random(DateTime.Now.Millisecond);
-                    _Choice = _Random_Choice.Next(0, sentences.Length);
-
-                    //随机选择一个句子
-                    toSendStr = sentences[_Choice];
-
-                    if (toSendStr == string.Empty)
+                    if (RadBtn_Sentence.Checked)
                     {
-                        return;
+                        sentences = GetSentence(textBox1.Text);
+                        _Choice = _Random_Choice.Next(0, sentences.Length);
+
+                        //随机选择一个句子
+                        toSendStr = sentences[_Choice];
+
+                        if (toSendStr == string.Empty)
+                        {
+                            return;
+                        }
+
+                        Send(toSendStr, ChkBox_SendEnter.Checked);
+                    }
+                    if(RadBtn_SingleChar.Checked)
+                    {
+                        //TODO 单个字符发送
+                        Send(textBox1.Text[charIndex++].ToString(), ChkBox_SendEnter.Checked);
+                        if(charIndex == textBox1.Text.Length)
+                        {
+                            SwitchTimerStatus(false);
+                            charIndex = 0;
+                        }
                     }
                 }
                 //TODO: 发送数字
@@ -161,32 +177,23 @@ namespace MouseEvent
                     numStart += numStep;
                     if (numStart < numEnd)
                     {
-                        toSendStr = numStart.ToString();
+                        Send(numStart.ToString(), ChkBox_SendEnter.Checked);
                     }
                     else
                     {
                         SwitchTimerStatus(false);
-                        timer1.Enabled = false;
                     }
-
                 }
                 if(tabControl1.SelectedIndex == 2)
                 {
-                    toSendStr = generator.GetChar(CharGenerator.CharType.ChineseCharacters);
+                    int rdmNum = _Random_Choice.Next(int.Parse(TextBox_MinCharNumber.Text), int.Parse(TextBox_MaxCharNumber.Text));
+                    Send(generator.GetChar(CharGenerator.CharType.ChineseCharacters,rdmNum),ChkBox_SendEnter.Checked);
+
+                    //DebugOut("当前欲生成的中文字符数为：" + rdmNum);
                 }
-
-                //发送
-                SendKeys.Send(toSendStr);
-
-                _SendCount++;
 
                 ShowInfo("发送 " + _SendCount + " 次；周期：" + (_TimerInterval >= 1000 ? GetValueOfTime(_TimerInterval) + "秒。" : _TimerInterval + "毫秒。"));
-
-                ////发送回车键
-                if (ChkBox_SendEnter.Checked)
-                {
-                    SendKeys.Send("{Enter}");
-                }
+               
 
                 if (ChkBox_AutoStop.Checked == true)
                 {
@@ -196,7 +203,6 @@ namespace MouseEvent
                         if(_SendCount >= totalCount)
                         {
                             SwitchTimerStatus(false);
-                            timer1.Enabled = false;
                         }
                     }
                     if(RadBtn_Time.Checked)
@@ -207,13 +213,26 @@ namespace MouseEvent
                 }
                 //DebugOut("获取下一次的时间周期开始。");
                 GetTimeIntervalRandom();
-                DebugOut("获取下一次的时间周期结束。");
                 timer1.Interval = _TimerInterval;
 
             }
             else
             {
                 ShowInfo("非指定窗口，停止发送");
+            }
+        }
+        /// <summary>
+        /// 发送指定的字符串
+        /// </summary>
+        /// <param name="sendStr">要发送的字符串</param>
+        /// <param name="sendEnter">是否发送回车</param>
+        private void Send(string sendStr, bool sendEnter)
+        {
+            SendKeys.Send(sendStr);
+            _SendCount++;
+            if(sendEnter)
+            {
+                SendKeys.Send("{Enter}");
             }
         }
 
@@ -243,7 +262,6 @@ namespace MouseEvent
             if(DateTime.Now.Year >= desTime.Year && DateTime.Now.Month >= desTime.Month && DateTime.Now.Day >= desTime.Day 
                 && DateTime.Now.Hour >= desTime.Hour && DateTime.Now.Minute >= desTime.Minute)
             {
-                timer1.Enabled = false;
                 SwitchTimerStatus(false);
                 timer2.Enabled = false;
             }
@@ -304,20 +322,24 @@ namespace MouseEvent
                 e.Handled = true;
             }
         }
-
+        /// <summary>
+        /// 切换Timer1的启用状态
+        /// </summary>
+        /// <param name="enable"></param>
         private void SwitchTimerStatus(bool enable)
         {
-            if(enable == true)
+            if(enable)
             {
                 ShowInfo("计时器启动。");
                 button1.Text = "停止";
-
+                timer1.Enabled = enable;
             }
             else
             {
                 ShowInfo("计时器停止。");
                 button1.Text = "开始";
                 _SendCount = 0;
+                timer1.Enabled = enable;
             }
         }
 
@@ -378,6 +400,11 @@ namespace MouseEvent
                 dateTimePicker1.Enabled = true;
             }
             
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            charIndex = 0;
         }
     }
 }

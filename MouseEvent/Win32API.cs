@@ -9,12 +9,45 @@ namespace MouseEvent
 {
     static class Win32API
     {
+        /// <summary>
+        /// 鼠标事件
+        /// </summary>
+        /// <param name="flags">
+        /// 指定单击按钮和鼠标动作的多种情况。参数可以是下列值的任何合理组合：
+        /// ABSOLUTE：表名参数dX、dY含有规范化的绝对坐标。如果不设置此位，参数则是相对数据：相对于上次位置
+        ///          的改动位置。
+        /// MOVE：表示发生移动。
+        /// LEFTDOWN：按下鼠标左键。
+        /// LEFTUP：左键松开。
+        /// RIGHTDOWN：右键按下。
+        /// RIGHTUP：右键松开。
+        /// MIDDLEDOWN：中键按下。
+        /// MIDDLEUP：中键松开。
+        /// WHEEL：滚轮滚动，滚动的数据由dwData指定。
+        /// </param>
+        /// <param name="dX">鼠标沿x轴的绝对位置或者从上次鼠标事件以来的移动数量。依赖于MOUSEEVENTF_ABSOLUTE的设置。</param>
+        /// <param name="dY">鼠标沿y轴的绝对位置或者从上次鼠标事件以来移动的数量。依赖于MOUSEEVENTF_ABSOLUTE的设置。</param>
+        /// <param name="dwData">如果flags为MOUSEEVENTF_WHEEL，则dwData指定鼠标滚轮移动的数量。
+        /// 正数表示滚轮向前转动，即远离用户；负数表示滚轮向后滚动，即朝向用户。一个轮击定义为WHEEL_DELTA，
+        /// 即120。如果flags不是WHEEL，则dwData应为零。
+        /// </param>
+        /// <param name="extraInfo">指定与鼠标事件相关的32位值。应用程序调用GetMessageExtraInfo来获取此信息</param>
         [DllImport("user32.dll")]
-        public static extern void mouse_event(int flags, int dX, int dY, int button, int extraInfo);
+        public static extern void mouse_event(MouseFlags flags, int dX, int dY, int dwData, int extraInfo);
 
-        const int MOUSEEVENTF_MOVE = 0x1; //鼠标移动
-        const int MOUSEEVENTF_LEFTDOWN = 0x2; //左键按下
-        const int MOUSEEVENTF_WHEEL = 0x800; //鼠标滚动
+        public enum MouseFlags:int
+        {
+            MOUSEEVENTF_MOVE = 0x0001, //鼠标移动
+            MOUSEEVENTF_LEFTDOWN = 0x0002, //左键按下
+            MOUSEEVENTF_LEFTUP = 0x0004, //左键抬起
+            MOUSEEVENTF_RIGHTDOWN = 0x0008, //右键按下
+            MOUSEEVENTF_RIGHTUP = 0x0010, //右键抬起
+            MOUSEEVENTF_MIDDLEDOWN = 0x0020, //中键按下
+            MOUSEEVENTF_MIDDLEUP = 0x0040, //中键抬起
+            MOUSEEVENTF_WHEEL = 0x800, //鼠标滚动
+            MOUSEEVENT_ABSOLUTE = 0x8000 //是否采用绝对坐标
+        };
+
         /// <summary>
         /// 获取与指定窗口有特定关系的窗口
         /// </summary>

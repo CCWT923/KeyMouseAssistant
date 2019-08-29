@@ -71,11 +71,16 @@
             this.CheckBox_Number = new System.Windows.Forms.CheckBox();
             this.CheckBox_Letter = new System.Windows.Forms.CheckBox();
             this.CheckBox_ChineseChar = new System.Windows.Forms.CheckBox();
+            this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.TabPage_SendChar = new System.Windows.Forms.TabPage();
+            this.TabPage_Mouse = new System.Windows.Forms.TabPage();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.TabPage_Sentence.SuspendLayout();
             this.TabPage_Number.SuspendLayout();
             this.TabPage_Random.SuspendLayout();
+            this.tabControl2.SuspendLayout();
+            this.TabPage_SendChar.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -85,7 +90,7 @@
             this.button1.FlatAppearance.BorderSize = 0;
             this.button1.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.button1.ForeColor = System.Drawing.Color.Black;
-            this.button1.Location = new System.Drawing.Point(444, 428);
+            this.button1.Location = new System.Drawing.Point(448, 469);
             this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(81, 60);
@@ -96,12 +101,12 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(4, 41);
+            this.textBox1.Location = new System.Drawing.Point(-3, 41);
             this.textBox1.Margin = new System.Windows.Forms.Padding(4);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(484, 193);
+            this.textBox1.Size = new System.Drawing.Size(491, 203);
             this.textBox1.TabIndex = 1;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
@@ -112,7 +117,7 @@
             // Lbl_Status
             // 
             this.Lbl_Status.AutoSize = true;
-            this.Lbl_Status.Location = new System.Drawing.Point(24, 496);
+            this.Lbl_Status.Location = new System.Drawing.Point(24, 553);
             this.Lbl_Status.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Lbl_Status.Name = "Lbl_Status";
             this.Lbl_Status.Size = new System.Drawing.Size(0, 15);
@@ -143,7 +148,7 @@
             this.comboBox1.Location = new System.Drawing.Point(21, 49);
             this.comboBox1.Margin = new System.Windows.Forms.Padding(4);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(395, 28);
+            this.comboBox1.Size = new System.Drawing.Size(412, 28);
             this.comboBox1.TabIndex = 5;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
@@ -151,7 +156,7 @@
             // 
             this.Btn_Refresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.Btn_Refresh.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Btn_Refresh.Location = new System.Drawing.Point(427, 47);
+            this.Btn_Refresh.Location = new System.Drawing.Point(444, 47);
             this.Btn_Refresh.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_Refresh.Name = "Btn_Refresh";
             this.Btn_Refresh.Size = new System.Drawing.Size(95, 29);
@@ -163,7 +168,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(19, 372);
+            this.label1.Location = new System.Drawing.Point(23, 413);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(113, 15);
@@ -172,7 +177,7 @@
             // 
             // TextBox_MinValue
             // 
-            this.TextBox_MinValue.Location = new System.Drawing.Point(145, 368);
+            this.TextBox_MinValue.Location = new System.Drawing.Point(149, 409);
             this.TextBox_MinValue.Margin = new System.Windows.Forms.Padding(4);
             this.TextBox_MinValue.Name = "TextBox_MinValue";
             this.TextBox_MinValue.Size = new System.Drawing.Size(79, 25);
@@ -182,7 +187,7 @@
             // 
             // TextBox_MaxValue
             // 
-            this.TextBox_MaxValue.Location = new System.Drawing.Point(253, 369);
+            this.TextBox_MaxValue.Location = new System.Drawing.Point(257, 410);
             this.TextBox_MaxValue.Margin = new System.Windows.Forms.Padding(4);
             this.TextBox_MaxValue.Name = "TextBox_MaxValue";
             this.TextBox_MaxValue.Size = new System.Drawing.Size(80, 25);
@@ -193,7 +198,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(231, 373);
+            this.label4.Location = new System.Drawing.Point(235, 414);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(15, 15);
@@ -203,7 +208,7 @@
             // ChkBox_SendEnter
             // 
             this.ChkBox_SendEnter.AutoSize = true;
-            this.ChkBox_SendEnter.Location = new System.Drawing.Point(371, 373);
+            this.ChkBox_SendEnter.Location = new System.Drawing.Point(399, 15);
             this.ChkBox_SendEnter.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ChkBox_SendEnter.Name = "ChkBox_SendEnter";
             this.ChkBox_SendEnter.Size = new System.Drawing.Size(89, 19);
@@ -214,7 +219,7 @@
             // ChkBox_AutoStop
             // 
             this.ChkBox_AutoStop.AutoSize = true;
-            this.ChkBox_AutoStop.Location = new System.Drawing.Point(22, 400);
+            this.ChkBox_AutoStop.Location = new System.Drawing.Point(26, 441);
             this.ChkBox_AutoStop.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ChkBox_AutoStop.Name = "ChkBox_AutoStop";
             this.ChkBox_AutoStop.Size = new System.Drawing.Size(89, 19);
@@ -229,7 +234,7 @@
             this.panel1.Controls.Add(this.RadBtn_Count);
             this.panel1.Controls.Add(this.dateTimePicker1);
             this.panel1.Controls.Add(this.TextBox_SendCount);
-            this.panel1.Location = new System.Drawing.Point(22, 424);
+            this.panel1.Location = new System.Drawing.Point(26, 465);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(413, 70);
@@ -286,11 +291,11 @@
             this.tabControl1.Controls.Add(this.TabPage_Sentence);
             this.tabControl1.Controls.Add(this.TabPage_Number);
             this.tabControl1.Controls.Add(this.TabPage_Random);
-            this.tabControl1.Location = new System.Drawing.Point(21, 92);
+            this.tabControl1.Location = new System.Drawing.Point(-4, 8);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(503, 269);
+            this.tabControl1.Size = new System.Drawing.Size(513, 276);
             this.tabControl1.TabIndex = 12;
             // 
             // TabPage_Sentence
@@ -299,11 +304,12 @@
             this.TabPage_Sentence.Controls.Add(this.RadBtn_Sentence);
             this.TabPage_Sentence.Controls.Add(this.RadBtn_SingleChar);
             this.TabPage_Sentence.Controls.Add(this.textBox1);
+            this.TabPage_Sentence.Controls.Add(this.ChkBox_SendEnter);
             this.TabPage_Sentence.Location = new System.Drawing.Point(4, 25);
             this.TabPage_Sentence.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.TabPage_Sentence.Name = "TabPage_Sentence";
             this.TabPage_Sentence.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.TabPage_Sentence.Size = new System.Drawing.Size(495, 240);
+            this.TabPage_Sentence.Size = new System.Drawing.Size(505, 247);
             this.TabPage_Sentence.TabIndex = 0;
             this.TabPage_Sentence.Text = "发送语句";
             // 
@@ -311,7 +317,7 @@
             // 
             this.RadBtn_Sentence.AutoSize = true;
             this.RadBtn_Sentence.Checked = true;
-            this.RadBtn_Sentence.Location = new System.Drawing.Point(152, 15);
+            this.RadBtn_Sentence.Location = new System.Drawing.Point(136, 15);
             this.RadBtn_Sentence.Name = "RadBtn_Sentence";
             this.RadBtn_Sentence.Size = new System.Drawing.Size(88, 19);
             this.RadBtn_Sentence.TabIndex = 3;
@@ -532,16 +538,46 @@
             this.CheckBox_ChineseChar.Text = "中文";
             this.CheckBox_ChineseChar.UseVisualStyleBackColor = true;
             // 
+            // tabControl2
+            // 
+            this.tabControl2.Controls.Add(this.TabPage_SendChar);
+            this.tabControl2.Controls.Add(this.TabPage_Mouse);
+            this.tabControl2.Location = new System.Drawing.Point(22, 84);
+            this.tabControl2.Name = "tabControl2";
+            this.tabControl2.SelectedIndex = 0;
+            this.tabControl2.Size = new System.Drawing.Size(517, 313);
+            this.tabControl2.TabIndex = 13;
+            // 
+            // TabPage_SendChar
+            // 
+            this.TabPage_SendChar.Controls.Add(this.tabControl1);
+            this.TabPage_SendChar.Location = new System.Drawing.Point(4, 25);
+            this.TabPage_SendChar.Name = "TabPage_SendChar";
+            this.TabPage_SendChar.Padding = new System.Windows.Forms.Padding(3);
+            this.TabPage_SendChar.Size = new System.Drawing.Size(509, 284);
+            this.TabPage_SendChar.TabIndex = 0;
+            this.TabPage_SendChar.Text = "字符输入";
+            this.TabPage_SendChar.UseVisualStyleBackColor = true;
+            // 
+            // TabPage_Mouse
+            // 
+            this.TabPage_Mouse.Location = new System.Drawing.Point(4, 25);
+            this.TabPage_Mouse.Name = "TabPage_Mouse";
+            this.TabPage_Mouse.Padding = new System.Windows.Forms.Padding(3);
+            this.TabPage_Mouse.Size = new System.Drawing.Size(509, 284);
+            this.TabPage_Mouse.TabIndex = 1;
+            this.TabPage_Mouse.Text = "鼠标操作";
+            this.TabPage_Mouse.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(536, 526);
-            this.Controls.Add(this.tabControl1);
+            this.ClientSize = new System.Drawing.Size(553, 587);
+            this.Controls.Add(this.tabControl2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.ChkBox_AutoStop);
-            this.Controls.Add(this.ChkBox_SendEnter);
             this.Controls.Add(this.TextBox_MaxValue);
             this.Controls.Add(this.TextBox_MinValue);
             this.Controls.Add(this.label4);
@@ -566,6 +602,8 @@
             this.TabPage_Number.PerformLayout();
             this.TabPage_Random.ResumeLayout(false);
             this.TabPage_Random.PerformLayout();
+            this.tabControl2.ResumeLayout(false);
+            this.TabPage_SendChar.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -615,6 +653,9 @@
         private System.Windows.Forms.TextBox TextBox_MaxCharNumber;
         private System.Windows.Forms.RadioButton RadBtn_Sentence;
         private System.Windows.Forms.RadioButton RadBtn_SingleChar;
+        private System.Windows.Forms.TabControl tabControl2;
+        private System.Windows.Forms.TabPage TabPage_SendChar;
+        private System.Windows.Forms.TabPage TabPage_Mouse;
     }
 }
 

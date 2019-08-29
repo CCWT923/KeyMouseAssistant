@@ -69,26 +69,47 @@ namespace MouseEvent
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if(!ValidTabData(ref tabControl1))
+            if (tabControl2.SelectedTab == TabPage_SendChar)
             {
-                return;
-            }
+                if (!ValidTabData(ref tabControl1))
+                {
+                    return;
+                }
 
-            GetTimeIntervalRandom();
-            generator = new CharGenerator();
+                GetTimeIntervalRandom();
+                generator = new CharGenerator();
 
-            if (timer1.Enabled)
-            {
-                timer1.Enabled = false;
-                button1.Text = "开始";
-                ShowInfo("停止。");
+                if (timer1.Enabled)
+                {
+                    timer1.Enabled = false;
+                    button1.Text = "开始";
+                    ShowInfo("停止。");
+                }
+                else
+                {
+                    timer1.Enabled = true;
+                    timer1.Interval = _TimerInterval;
+                    button1.Text = "停止";
+                    ShowInfo("启动，周期：" + GetValueOfTime(_TimerInterval) + " 秒。");
+                }
             }
-            else
+            else if(tabControl2.SelectedTab == TabPage_Mouse)
             {
-                timer1.Enabled = true;
-                timer1.Interval = _TimerInterval;
-                button1.Text = "停止";
-                ShowInfo("启动，周期：" + GetValueOfTime(_TimerInterval) + " 秒。");
+                GetTimeIntervalRandom();
+
+                if (timer1.Enabled)
+                {
+                    timer1.Enabled = false;
+                    button1.Text = "开始";
+                    ShowInfo("停止。");
+                }
+                else
+                {
+                    timer1.Enabled = true;
+                    timer1.Interval = _TimerInterval;
+                    button1.Text = "停止";
+                    ShowInfo("启动，周期：" + GetValueOfTime(_TimerInterval) + " 秒。");
+                }
             }
         }
 
@@ -117,6 +138,83 @@ namespace MouseEvent
             _Random_TimerInterval = new Random(DateTime.Now.Millisecond);
             _TimerInterval = _Random_TimerInterval.Next(_TimerIntervalMinValue, _TimerIntervalMaxValue);
         }
+        /// <summary>
+        /// 发送字符
+        /// </summary>
+        private void SendChars()
+        {
+            _Random_Choice = new Random(DateTime.Now.Millisecond);
+
+            if (tabControl1.SelectedIndex == 0)
+            {
+                if (RadBtn_Sentence.Checked)
+                {
+                    sentences = GetSentence(textBox1.Text);
+                    _Choice = _Random_Choice.Next(0, sentences.Length);
+
+                    //随机选择一个句子
+                    toSendStr = sentences[_Choice];
+
+                    if (toSendStr == string.Empty)
+                    {
+                        return;
+                    }
+
+                    Send(toSendStr, ChkBox_SendEnter.Checked);
+                }
+                if (RadBtn_SingleChar.Checked)
+                {
+                    //TODO 单个字符发送
+                    Send(textBox1.Text[charIndex++].ToString(), ChkBox_SendEnter.Checked);
+                    if (charIndex == textBox1.Text.Length)
+                    {
+                        SwitchTimerStatus(false);
+                        charIndex = 0;
+                    }
+                }
+            }
+            //TODO: 发送数字
+            if (tabControl1.SelectedIndex == 1)
+            {
+                if (!numStarted)
+                {
+                    numStart = double.Parse(TextBox_NumStart.Text);
+                    numStarted = true;
+                }
+
+                numEnd = double.Parse(TextBox_NumEnd.Text);
+                numStep = double.Parse(TextBox_NumStep.Text);
+                numStart += numStep;
+                if (numStart != numEnd)
+                {
+                    Send(numStart.ToString(), ChkBox_SendEnter.Checked);
+                }
+                else
+                {
+                    SwitchTimerStatus(false);
+                }
+            }
+            if (tabControl1.SelectedIndex == 2)
+            {
+                int rdmNum = _Random_Choice.Next(int.Parse(TextBox_MinCharNumber.Text), int.Parse(TextBox_MaxCharNumber.Text));
+                Send(generator.GetChar(CharGenerator.CharType.ChineseCharacters, rdmNum), ChkBox_SendEnter.Checked);
+
+                //DebugOut("当前欲生成的中文字符数为：" + rdmNum);
+            }
+
+            ShowInfo("发送 " + _SendCount + " 次；周期：" + (_TimerInterval >= 1000 ? GetValueOfTime(_TimerInterval) + "秒。" : _TimerInterval + "毫秒。"));
+
+        }
+        /// <summary>
+        /// 拖动鼠标
+        /// </summary>
+        private void MouseDrag()
+        {
+            Win32API.mouse_event(Win32API.MouseFlags.MOUSEEVENTF_LEFTDOWN, 0, 100, 0, 0);
+            Win32API.mouse_event( Win32API.MouseFlags.MOUSEEVENTF_MOVE,0,100,0,0);
+            Win32API.mouse_event(Win32API.MouseFlags.MOUSEEVENTF_LEFTUP , 0, 0, 0, 0);
+            Win32API.mouse_event(Win32API.MouseFlags.MOUSEEVENTF_MOVE, 0, -100, 0, 0);
+        }
 
         int totalCount = 0;
         double numStart = 0.0;
@@ -131,69 +229,15 @@ namespace MouseEvent
         {
             if( _SelectedHwnd == GetForegroundWindow())
             {
-                _Random_Choice = new Random(DateTime.Now.Millisecond);
-                //滚动鼠标
-                //Win32API.mouse_event(0x800, 500, 500, int.Parse(textBox1.Text), 0);
-                if (tabControl1.SelectedIndex == 0)
+                if(tabControl2.SelectedTab == TabPage_SendChar)
                 {
-                    if (RadBtn_Sentence.Checked)
-                    {
-                        sentences = GetSentence(textBox1.Text);
-                        _Choice = _Random_Choice.Next(0, sentences.Length);
-
-                        //随机选择一个句子
-                        toSendStr = sentences[_Choice];
-
-                        if (toSendStr == string.Empty)
-                        {
-                            return;
-                        }
-
-                        Send(toSendStr, ChkBox_SendEnter.Checked);
-                    }
-                    if(RadBtn_SingleChar.Checked)
-                    {
-                        //TODO 单个字符发送
-                        Send(textBox1.Text[charIndex++].ToString(), ChkBox_SendEnter.Checked);
-                        if(charIndex == textBox1.Text.Length)
-                        {
-                            SwitchTimerStatus(false);
-                            charIndex = 0;
-                        }
-                    }
+                    SendChars();
                 }
-                //TODO: 发送数字
-                if(tabControl1.SelectedIndex == 1)
+                else if(tabControl2.SelectedTab == TabPage_Mouse)
                 {
-                    if(!numStarted)
-                    {
-                        numStart = double.Parse(TextBox_NumStart.Text);
-                        numStarted = true;
-                    }
-
-                    numEnd = double.Parse(TextBox_NumEnd.Text);
-                    numStep = double.Parse(TextBox_NumStep.Text);
-                    numStart += numStep;
-                    if (numStart != numEnd)
-                    {
-                        Send(numStart.ToString(), ChkBox_SendEnter.Checked);
-                    }
-                    else
-                    {
-                        SwitchTimerStatus(false);
-                    }
+                    MouseDrag();
                 }
-                if(tabControl1.SelectedIndex == 2)
-                {
-                    int rdmNum = _Random_Choice.Next(int.Parse(TextBox_MinCharNumber.Text), int.Parse(TextBox_MaxCharNumber.Text));
-                    Send(generator.GetChar(CharGenerator.CharType.ChineseCharacters,rdmNum),ChkBox_SendEnter.Checked);
-
-                    //DebugOut("当前欲生成的中文字符数为：" + rdmNum);
-                }
-
-                ShowInfo("发送 " + _SendCount + " 次；周期：" + (_TimerInterval >= 1000 ? GetValueOfTime(_TimerInterval) + "秒。" : _TimerInterval + "毫秒。"));
-               
-
+                
                 if (ChkBox_AutoStop.Checked == true)
                 {
                     if(RadBtn_Count.Checked)

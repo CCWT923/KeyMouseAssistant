@@ -49,8 +49,6 @@ namespace MouseEvent
                     _CharResult += ((Char)_Random.Next(_ChAR_CN_MIN, _CHAR_CN_MAX)).ToString();
                 }
             }
-
-
             return _CharResult;
         }
 

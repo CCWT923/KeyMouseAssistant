@@ -50,6 +50,8 @@
             this.TextBox_SendCount = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.TabPage_Sentence = new System.Windows.Forms.TabPage();
+            this.RadBtn_Sentence = new System.Windows.Forms.RadioButton();
+            this.RadBtn_SingleChar = new System.Windows.Forms.RadioButton();
             this.TabPage_Number = new System.Windows.Forms.TabPage();
             this.label9 = new System.Windows.Forms.Label();
             this.TextBox_NumAppendStr = new System.Windows.Forms.TextBox();
@@ -69,8 +71,6 @@
             this.CheckBox_Number = new System.Windows.Forms.CheckBox();
             this.CheckBox_Letter = new System.Windows.Forms.CheckBox();
             this.CheckBox_ChineseChar = new System.Windows.Forms.CheckBox();
-            this.RadBtn_SingleChar = new System.Windows.Forms.RadioButton();
-            this.RadBtn_Sentence = new System.Windows.Forms.RadioButton();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.TabPage_Sentence.SuspendLayout();
@@ -86,7 +86,7 @@
             this.button1.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.button1.ForeColor = System.Drawing.Color.Black;
             this.button1.Location = new System.Drawing.Point(444, 428);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(81, 60);
             this.button1.TabIndex = 0;
@@ -97,11 +97,11 @@
             // textBox1
             // 
             this.textBox1.Location = new System.Drawing.Point(4, 41);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(4);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(484, 204);
+            this.textBox1.Size = new System.Drawing.Size(484, 193);
             this.textBox1.TabIndex = 1;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
@@ -138,19 +138,21 @@
             this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(21, 49);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(4);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(395, 23);
+            this.comboBox1.Size = new System.Drawing.Size(395, 28);
             this.comboBox1.TabIndex = 5;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // Btn_Refresh
             // 
             this.Btn_Refresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.Btn_Refresh.Location = new System.Drawing.Point(427, 45);
-            this.Btn_Refresh.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Btn_Refresh.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Btn_Refresh.Location = new System.Drawing.Point(427, 47);
+            this.Btn_Refresh.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_Refresh.Name = "Btn_Refresh";
             this.Btn_Refresh.Size = new System.Drawing.Size(95, 29);
             this.Btn_Refresh.TabIndex = 6;
@@ -171,7 +173,7 @@
             // TextBox_MinValue
             // 
             this.TextBox_MinValue.Location = new System.Drawing.Point(145, 368);
-            this.TextBox_MinValue.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.TextBox_MinValue.Margin = new System.Windows.Forms.Padding(4);
             this.TextBox_MinValue.Name = "TextBox_MinValue";
             this.TextBox_MinValue.Size = new System.Drawing.Size(79, 25);
             this.TextBox_MinValue.TabIndex = 8;
@@ -181,7 +183,7 @@
             // TextBox_MaxValue
             // 
             this.TextBox_MaxValue.Location = new System.Drawing.Point(253, 369);
-            this.TextBox_MaxValue.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.TextBox_MaxValue.Margin = new System.Windows.Forms.Padding(4);
             this.TextBox_MaxValue.Name = "TextBox_MaxValue";
             this.TextBox_MaxValue.Size = new System.Drawing.Size(80, 25);
             this.TextBox_MaxValue.TabIndex = 8;
@@ -284,11 +286,11 @@
             this.tabControl1.Controls.Add(this.TabPage_Sentence);
             this.tabControl1.Controls.Add(this.TabPage_Number);
             this.tabControl1.Controls.Add(this.TabPage_Random);
-            this.tabControl1.Location = new System.Drawing.Point(21, 80);
+            this.tabControl1.Location = new System.Drawing.Point(21, 92);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(503, 281);
+            this.tabControl1.Size = new System.Drawing.Size(503, 269);
             this.tabControl1.TabIndex = 12;
             // 
             // TabPage_Sentence
@@ -301,9 +303,31 @@
             this.TabPage_Sentence.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.TabPage_Sentence.Name = "TabPage_Sentence";
             this.TabPage_Sentence.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.TabPage_Sentence.Size = new System.Drawing.Size(495, 252);
+            this.TabPage_Sentence.Size = new System.Drawing.Size(495, 240);
             this.TabPage_Sentence.TabIndex = 0;
             this.TabPage_Sentence.Text = "发送语句";
+            // 
+            // RadBtn_Sentence
+            // 
+            this.RadBtn_Sentence.AutoSize = true;
+            this.RadBtn_Sentence.Checked = true;
+            this.RadBtn_Sentence.Location = new System.Drawing.Point(152, 15);
+            this.RadBtn_Sentence.Name = "RadBtn_Sentence";
+            this.RadBtn_Sentence.Size = new System.Drawing.Size(88, 19);
+            this.RadBtn_Sentence.TabIndex = 3;
+            this.RadBtn_Sentence.TabStop = true;
+            this.RadBtn_Sentence.Text = "整句发送";
+            this.RadBtn_Sentence.UseVisualStyleBackColor = true;
+            // 
+            // RadBtn_SingleChar
+            // 
+            this.RadBtn_SingleChar.AutoSize = true;
+            this.RadBtn_SingleChar.Location = new System.Drawing.Point(7, 15);
+            this.RadBtn_SingleChar.Name = "RadBtn_SingleChar";
+            this.RadBtn_SingleChar.Size = new System.Drawing.Size(103, 19);
+            this.RadBtn_SingleChar.TabIndex = 3;
+            this.RadBtn_SingleChar.Text = "逐字符发送";
+            this.RadBtn_SingleChar.UseVisualStyleBackColor = true;
             // 
             // TabPage_Number
             // 
@@ -320,7 +344,7 @@
             this.TabPage_Number.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.TabPage_Number.Name = "TabPage_Number";
             this.TabPage_Number.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.TabPage_Number.Size = new System.Drawing.Size(495, 252);
+            this.TabPage_Number.Size = new System.Drawing.Size(495, 240);
             this.TabPage_Number.TabIndex = 1;
             this.TabPage_Number.Text = "发送数字";
             this.TabPage_Number.UseVisualStyleBackColor = true;
@@ -336,12 +360,12 @@
             // 
             // TextBox_NumAppendStr
             // 
-            this.TextBox_NumAppendStr.Location = new System.Drawing.Point(17, 122);
+            this.TextBox_NumAppendStr.Location = new System.Drawing.Point(16, 112);
             this.TextBox_NumAppendStr.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.TextBox_NumAppendStr.Multiline = true;
             this.TextBox_NumAppendStr.Name = "TextBox_NumAppendStr";
             this.TextBox_NumAppendStr.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.TextBox_NumAppendStr.Size = new System.Drawing.Size(472, 123);
+            this.TextBox_NumAppendStr.Size = new System.Drawing.Size(472, 114);
             this.TextBox_NumAppendStr.TabIndex = 5;
             // 
             // TextBox_NumStep
@@ -422,7 +446,7 @@
             this.TabPage_Random.Location = new System.Drawing.Point(4, 25);
             this.TabPage_Random.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.TabPage_Random.Name = "TabPage_Random";
-            this.TabPage_Random.Size = new System.Drawing.Size(495, 252);
+            this.TabPage_Random.Size = new System.Drawing.Size(495, 240);
             this.TabPage_Random.TabIndex = 2;
             this.TabPage_Random.Text = "随机字符";
             this.TabPage_Random.UseVisualStyleBackColor = true;
@@ -439,7 +463,7 @@
             // TextBox_MaxCharNumber
             // 
             this.TextBox_MaxCharNumber.Location = new System.Drawing.Point(267, 78);
-            this.TextBox_MaxCharNumber.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.TextBox_MaxCharNumber.Margin = new System.Windows.Forms.Padding(4);
             this.TextBox_MaxCharNumber.Name = "TextBox_MaxCharNumber";
             this.TextBox_MaxCharNumber.Size = new System.Drawing.Size(60, 25);
             this.TextBox_MaxCharNumber.TabIndex = 5;
@@ -448,7 +472,7 @@
             // TextBox_MinCharNumber
             // 
             this.TextBox_MinCharNumber.Location = new System.Drawing.Point(177, 78);
-            this.TextBox_MinCharNumber.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.TextBox_MinCharNumber.Margin = new System.Windows.Forms.Padding(4);
             this.TextBox_MinCharNumber.Name = "TextBox_MinCharNumber";
             this.TextBox_MinCharNumber.Size = new System.Drawing.Size(60, 25);
             this.TextBox_MinCharNumber.TabIndex = 5;
@@ -508,28 +532,6 @@
             this.CheckBox_ChineseChar.Text = "中文";
             this.CheckBox_ChineseChar.UseVisualStyleBackColor = true;
             // 
-            // RadBtn_SingleChar
-            // 
-            this.RadBtn_SingleChar.AutoSize = true;
-            this.RadBtn_SingleChar.Location = new System.Drawing.Point(7, 15);
-            this.RadBtn_SingleChar.Name = "RadBtn_SingleChar";
-            this.RadBtn_SingleChar.Size = new System.Drawing.Size(103, 19);
-            this.RadBtn_SingleChar.TabIndex = 3;
-            this.RadBtn_SingleChar.Text = "逐字符发送";
-            this.RadBtn_SingleChar.UseVisualStyleBackColor = true;
-            // 
-            // RadBtn_Sentence
-            // 
-            this.RadBtn_Sentence.AutoSize = true;
-            this.RadBtn_Sentence.Checked = true;
-            this.RadBtn_Sentence.Location = new System.Drawing.Point(152, 15);
-            this.RadBtn_Sentence.Name = "RadBtn_Sentence";
-            this.RadBtn_Sentence.Size = new System.Drawing.Size(88, 19);
-            this.RadBtn_Sentence.TabIndex = 3;
-            this.RadBtn_Sentence.TabStop = true;
-            this.RadBtn_Sentence.Text = "整句发送";
-            this.RadBtn_Sentence.UseVisualStyleBackColor = true;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -549,7 +551,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.Lbl_Status);
             this.Controls.Add(this.button1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

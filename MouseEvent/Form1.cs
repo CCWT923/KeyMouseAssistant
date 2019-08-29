@@ -46,8 +46,7 @@ namespace MouseEvent
             if(tab.SelectedIndex == 1)
             {
                 if(TextBox_NumStart.Text == string.Empty || TextBox_NumEnd.Text == string.Empty 
-                    || TextBox_NumStep.Text == string.Empty || comboBox1.SelectedItem == null 
-                    || (double.Parse(TextBox_NumStart.Text) >= double.Parse(TextBox_NumEnd.Text)))
+                    || TextBox_NumStep.Text == string.Empty || comboBox1.SelectedItem == null )
                 {
                     return false;
                 }
@@ -175,7 +174,7 @@ namespace MouseEvent
                     numEnd = double.Parse(TextBox_NumEnd.Text);
                     numStep = double.Parse(TextBox_NumStep.Text);
                     numStart += numStep;
-                    if (numStart < numEnd)
+                    if (numStart != numEnd)
                     {
                         Send(numStart.ToString(), ChkBox_SendEnter.Checked);
                     }
@@ -313,7 +312,7 @@ namespace MouseEvent
         /// <param name="e"></param>
         private void JustAllowNumberInput(object sender, KeyPressEventArgs e)
         {
-            if(e.KeyChar >= '0' && e.KeyChar <= '9' || e.KeyChar == 8 || e.KeyChar == '.')
+            if(e.KeyChar >= '0' && e.KeyChar <= '9' || e.KeyChar == 8 || e.KeyChar == '.' || e.KeyChar == '-')
             {
                 e.Handled = false;
             }

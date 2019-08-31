@@ -216,6 +216,12 @@ namespace MouseEvent
             Win32API.mouse_event(Win32API.MouseFlags.MOUSEEVENTF_MOVE, 0, -100, 0, 0);
         }
 
+        private void Mouse_Click()
+        {
+            Win32API.mouse_event(Win32API.MouseFlags.MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
+            Win32API.mouse_event(Win32API.MouseFlags.MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
+        }
+
         int totalCount = 0;
         double numStart = 0.0;
         double numEnd = 0.0;
@@ -235,7 +241,14 @@ namespace MouseEvent
                 }
                 else if(tabControl2.SelectedTab == TabPage_Mouse)
                 {
-                    MouseDrag();
+                    if(RadioButton_MouseClick.Checked)
+                    {
+                        Mouse_Click();
+                    }
+                    else if(RadButton_MouseDrag.Checked)
+                    {
+                        MouseDrag();
+                    }
                 }
                 
                 if (ChkBox_AutoStop.Checked == true)
